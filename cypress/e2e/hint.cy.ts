@@ -1,3 +1,5 @@
+/// <reference types="cypress" />
+
 describe("Hint", () => {
   it("fills each empty cell", () => {
     cy.visit("/");
