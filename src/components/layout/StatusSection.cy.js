@@ -21,8 +21,8 @@ describe("StatusSection", () => {
       .should("be.checked")
       .wait(1000, { log: false });
 
-    cy.screenshot("StatusSection - 1");
+    // cy.screenshot("StatusSection - 1");
     cy.viewport(290, 500);
-    cy.screenshot("StatusSection - 2");
+    // cy.screenshot("StatusSection - 2");
   });
 });
