@@ -1,7 +1,24 @@
-import React, { useState, useEffect } from 'react';
-import { useSudokuContext } from '../context/SudokuContext';
-import moment from 'moment';
+import React, { useState, useEffect } from "react";
+import { useSudokuContext } from "../context/SudokuContext";
+import moment from "moment";
 
+interface TimeFormat {
+  hours: number;
+  minutes: number;
+  seconds: number;
+}
+
+export const formatTime = ({ hours, minutes, seconds }: TimeFormat) => {
+  if (typeof seconds === undefined) {
+    return "00:00";
+  }
+  let stringTimer = "";
+
+  stringTimer += hours ? "" + hours + ":" : "";
+  stringTimer += minutes ? (minutes < 10 ? "0" : "") + minutes + ":" : "00:";
+  stringTimer += seconds < 10 ? "0" + seconds : seconds;
+  return stringTimer;
+};
 /**
  * React component for the Timer in Status Section.
  * Uses the 'useEffect' hook to update the timer every minute.
@@ -11,8 +28,7 @@ export const Timer = () => {
   let { timeGameStarted, won } = useSudokuContext();
 
   useEffect(() => {
-    if (!won)
-      setTimeout(() => tick(), 1000);
+    if (!won) setTimeout(() => tick(), 1000);
   });
 
   function tick() {
@@ -20,24 +36,17 @@ export const Timer = () => {
   }
 
   function getTimer() {
-    let secondsTotal = currentTime.diff(timeGameStarted, 'seconds');
-    if (secondsTotal <= 0)
-      return '00:00';
-    let duration = moment.duration(secondsTotal, 'seconds');
+    let secondsTotal = currentTime.diff(timeGameStarted, "seconds");
+    if (secondsTotal <= 0) return "00:00";
+    let duration = moment.duration(secondsTotal, "seconds");
     let hours = duration.hours();
     let minutes = duration.minutes();
     let seconds = duration.seconds();
-    let stringTimer = '';
+    const timerString = formatTime({ hours, minutes, seconds });
 
-    stringTimer += hours ? '' + hours + ':' : '';
-    stringTimer += minutes ? (minutes < 10 ? '0' : '') + minutes + ':' : '00:';
-    stringTimer += seconds < 10 ? '0' + seconds : seconds;
-
-    return stringTimer;
+    return timerString;
   }
 
-  return (
-    <div className="status__time">{getTimer()}
-    </div>
-  )
-}
+  // @ts-ignore
+  return <div className="status__time">{getTimer()}</div>;
+};
