@@ -19,5 +19,7 @@ describe("Sudoku", () => {
         cy.contains(".status__number", solved[index]).click().wait(1000);
       }
     });
+
+    cy.contains(".overlay__text", "You solved it").should("be.visible");
   });
 });
